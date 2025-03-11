@@ -415,30 +415,26 @@ def get_rtt_range(ipv4_addresses):
     """Get the min and max round trip time to the IP addresses."""
     rtts = []
     
-    # Number of measurements to make per IP/port
-    num_measurements = 1
-    
     for ip in ipv4_addresses:
         for port in [443, 80, 22]:  # Try common ports
-            for _ in range(num_measurements):
-                try:
-                    # Use socket to measure RTT
-                    start_time = time.time()
-                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    sock.settimeout(2)
-                    sock.connect((ip, port))
-                    sock.close()
-                    end_time = time.time()
-                    
-                    # Calculate RTT in milliseconds
-                    rtt = (end_time - start_time) * 1000
-                    rtts.append(rtt)
-                    print(f"RTT for {ip}:{port} = {rtt} ms")
-                    
-                    # One successful connection is enough for this IP/port combination
-                    break
-                except Exception:
-                    continue
+            try:
+                # Use socket to measure RTT
+                start_time = time.time()
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.settimeout(2)
+                sock.connect((ip, port))
+                sock.close()
+                end_time = time.time()
+                
+                # Calculate RTT in milliseconds
+                rtt = (end_time - start_time) * 1000
+                rtts.append(rtt)
+                print(f"RTT for {ip}:{port} = {rtt} ms")
+                
+                # One successful connection is enough for this IP/port combination
+                break
+            except Exception:
+                continue
     
     if not rtts:
         return None

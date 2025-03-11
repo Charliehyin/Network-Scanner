@@ -12,24 +12,25 @@ DETAILED DOMAIN INFORMATION
 DOMAIN: facebook.com
 ================================================================================
 
-Scan time: 1741736922.3353176
+Scan time: 1741736986.5954614
 IPv4 addresses (6):
-  - 57.144.174.1
-  - 57.144.172.1
-  - 31.13.93.35
   - 157.240.202.35
   - 157.240.254.35
   - 57.144.104.1
-IPv6 addresses (6):
-  - 2a03:2880:f17b:187:face:b00c:0:25de
-  - 2a03:2880:f356:1:face:b00c:0:25de
-  - 2a03:2880:f32b:9:face:b00c:0:25de
+  - 157.240.19.35
+  - 57.144.174.1
+  - 57.144.172.1
+IPv6 addresses (7):
   - 2a03:2880:f175:181:face:b00c:0:25de
-  - 2a03:2880:f134:183:face:b00c:0:25de
+  - 2a03:2880:f17b:187:face:b00c:0:25de
+  - 2a03:2880:f175:81:face:b00c:0:25de
+  - 2a03:2880:f32b:9:face:b00c:0:25de
   - 2a03:2880:f357:1:face:b00c:0:25de
+  - 2a03:2880:f356:1:face:b00c:0:25de
+  - 2a03:2880:f134:83:face:b00c:0:25de
 HTTP server: None
 Insecure HTTP: True
-Redirects to HTTPS: True
+Redirects to HTTPS: {'redirect_to_https': True}
 HSTS enabled: True
 Supported TLS versions (4):
   - TLSv1.0
@@ -38,26 +39,26 @@ Supported TLS versions (4):
   - TLSv1.3
 Root CA: DigiCert Inc
 Reverse DNS names (6):
-  - edge-star-mini-shv-03-ord5.facebook.com
-  - edge-star-mini-shv-01-det1.facebook.com
-  - edge-star-mini-shv-02-dfw5.facebook.com
   - edge-star-mini-shv-02-cdg4.facebook.com
   - edge-star-mini-shv-02-ord5.facebook.com
   - edge-star-mini-shv-01-den2.facebook.com
-RTT range: 14.67ms - 137.48ms
+  - edge-star-mini-shv-01-dfw5.facebook.com
+  - edge-star-mini-shv-03-ord5.facebook.com
+  - edge-star-mini-shv-01-det1.facebook.com
+RTT range: 29.66ms - 127.88ms
 Geographic locations (5):
+  - Dallas, Texas, United States
+  - Chicago, Illinois, United States
+  - Southfield, Michigan, United States
   - Saint-Denis, Île-de-France, France
   - Highlands Ranch, Colorado, United States
-  - Southfield, Michigan, United States
-  - Chicago, Illinois, United States
-  - Dallas, Texas, United States
 
 
 RTT RANGES (FASTEST TO SLOWEST)
 --------------------------------------------------------------------------------
                  Domain                  |  Min RTT (ms)   |  Max RTT (ms)  
 =========================================+=================+================
-facebook.com                             |          14.665 |         137.483
+facebook.com                             |          29.658 |         127.883
 
 
 ROOT CERTIFICATE AUTHORITIES

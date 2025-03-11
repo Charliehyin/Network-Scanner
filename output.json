@@ -4,43 +4,43 @@
             "Saint-Denis, \u00cele-de-France, France",
             "Highlands Ranch, Colorado, United States",
             "Southfield, Michigan, United States",
-            "Chicago, Illinois, United States",
-            "Dallas, Texas, United States"
+            "Chicago, Illinois, United States"
         ],
         "hsts": true,
         "http_server": null,
         "insecure_http": true,
         "ipv4_addresses": [
-            "57.144.174.1",
-            "57.144.172.1",
-            "31.13.93.35",
+            "157.240.249.35",
             "157.240.202.35",
+            "57.144.104.1",
             "157.240.254.35",
-            "57.144.104.1"
+            "57.144.172.1",
+            "57.144.174.1"
         ],
         "ipv6_addresses": [
-            "2a03:2880:f17b:187:face:b00c:0:25de",
-            "2a03:2880:f356:1:face:b00c:0:25de",
             "2a03:2880:f32b:9:face:b00c:0:25de",
-            "2a03:2880:f175:181:face:b00c:0:25de",
+            "2a03:2880:f175:81:face:b00c:0:25de",
+            "2a03:2880:f357:1:face:b00c:0:25de",
+            "2a03:2880:f356:1:face:b00c:0:25de",
             "2a03:2880:f134:183:face:b00c:0:25de",
-            "2a03:2880:f357:1:face:b00c:0:25de"
+            "2a03:2880:f17b:187:face:b00c:0:25de",
+            "2a03:2880:f175:181:face:b00c:0:25de"
         ],
         "rdns_names": [
-            "edge-star-mini-shv-03-ord5.facebook.com",
-            "edge-star-mini-shv-01-det1.facebook.com",
-            "edge-star-mini-shv-02-dfw5.facebook.com",
+            "edge-star-mini-shv-01-ord5.facebook.com",
             "edge-star-mini-shv-02-cdg4.facebook.com",
+            "edge-star-mini-shv-01-den2.facebook.com",
             "edge-star-mini-shv-02-ord5.facebook.com",
-            "edge-star-mini-shv-01-den2.facebook.com"
+            "edge-star-mini-shv-01-det1.facebook.com",
+            "edge-star-mini-shv-03-ord5.facebook.com"
         ],
         "redirect_to_https": true,
         "root_ca": "DigiCert Inc",
         "rtt_range": [
-            14.665365219116211,
-            137.4826431274414
+            30.109167098999023,
+            123.89636039733887
         ],
-        "scan_time": 1741736922.3353176,
+        "scan_time": 1741737201.9344392,
         "tls_versions": [
             "TLSv1.0",
             "TLSv1.1",

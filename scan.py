@@ -9,7 +9,7 @@ import requests
 import ipaddress
 import os
 import dns.resolver
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 
 # List of public DNS resolvers to use for lookups
 PUBLIC_DNS_RESOLVERS = [
@@ -175,30 +175,8 @@ def check_insecure_http(domain):
     except Exception:
         return False
 
-import socket
-import requests
-import json
-import sys
-from urllib.parse import urlparse
-
-import socket
-import requests
-import json
-import sys
-from urllib.parse import urlparse, urljoin
-
 def check_http_redirect(hostname, max_redirects=10):
-    """
-    Check if HTTP requests on port 80 are redirected to HTTPS on port 443.
-    
-    Args:
-        hostname (str): The hostname to check
-        max_redirects (int): Maximum number of redirects to follow
-        
-    Returns:
-        dict: A dictionary with 'redirect_to_https' boolean key
-    """
-    result = {"redirect_to_https": False}
+    result = False
     
     # First check if the site even listens on port 80
     try:
@@ -242,7 +220,7 @@ def check_http_redirect(hostname, max_redirects=10):
                     
                     # Check if we've been redirected to HTTPS
                     if next_url.startswith('https://'):
-                        result["redirect_to_https"] = True
+                        result = True
                         break
                     
                     # Continue following redirect chain
@@ -256,12 +234,12 @@ def check_http_redirect(hostname, max_redirects=10):
                 # Some sites use JavaScript or other means to redirect
                 final_url = response.url
                 if final_url.startswith('https://'):
-                    result["redirect_to_https"] = True
+                    result = True
                 break
         
         # Check if we reached maximum redirects but last URL was HTTPS
         if redirect_count == max_redirects and current_url.startswith('https://'):
-            result["redirect_to_https"] = True
+            result = True
     
     except requests.exceptions.RequestException as e:
         # Log the error for debugging
@@ -270,7 +248,7 @@ def check_http_redirect(hostname, max_redirects=10):
         # If there was a connection error but the URL changed to HTTPS, it might
         # still be a valid redirect
         if 'current_url' in locals() and current_url.startswith('https://'):
-            result["redirect_to_https"] = True
+            result = True
     
     return result
 

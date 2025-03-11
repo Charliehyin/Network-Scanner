@@ -150,7 +150,8 @@ def get_http_server(domain):
     try:
         response = requests.get(f"http://{domain}", timeout=5, allow_redirects=True)
         server_header = response.headers.get("Server")
-    except Exception:
+    except Exception as e:
+        print(f"HTTP request failed: {str(e)}")
         pass
     
     # If HTTP failed or didn't provide a Server header, try HTTPS
@@ -284,41 +285,86 @@ def check_hsts(domain):
 def get_tls_versions(domain):
     """Check which TLS versions are supported by the server."""
     tls_versions = []
-    versions = [
-        ("SSLv2", "-ssl2"),
-        ("SSLv3", "-ssl3"),
-        ("TLSv1.0", "-tls1"),
-        ("TLSv1.1", "-tls1_1"),
-        ("TLSv1.2", "-tls1_2"),
-        ("TLSv1.3", "-tls1_3")
-    ]
     
-    for version_name, version_flag in versions:
-        try:
-            process = subprocess.run(
-                ["openssl", "s_client", version_flag, "-connect", f"{domain}:443"],
-                input=b'',
-                capture_output=True,
-                timeout=3
-            )
+    # Use nmap to check for SSLv2, SSLv3, TLSv1.0, TLSv1.1, and TLSv1.2
+    try:
+        # Run nmap with ssl-enum-ciphers script
+        process = subprocess.run(
+            ["nmap", "--script", "ssl-enum-ciphers", "-p", "443", domain],
+            capture_output=True,
+            timeout=30  # nmap can take longer
+        )
+        
+        output = process.stdout.decode('utf-8', errors='ignore')
+        
+        # Parse nmap output to find supported TLS versions
+        version_indicators = {
+            "SSLv2": ["SSLv2", "SSL2"],
+            "SSLv3": ["SSLv3", "SSL3"],
+            "TLSv1.0": ["TLSv1.0", "TLS1.0", "TLSv1"],
+            "TLSv1.1": ["TLSv1.1", "TLS1.1"],
+            "TLSv1.2": ["TLSv1.2", "TLS1.2"]
+        }
+        
+        lines = output.split("\n")
+        for line in lines:
+            line = line.strip()
             
-            stdout = process.stdout.decode('utf-8', errors='ignore')
-            stderr = process.stderr.decode('utf-8', errors='ignore')
+            # Check each version
+            for version, indicators in version_indicators.items():
+                if any(indicator in line for indicator in indicators):
+                    # Check if this line indicates the version is not offered
+                    not_offered = any(phrase in line.lower() for phrase in 
+                                      ["not offered", "no supported ciphers", "disabled"])
+                    
+                    if not not_offered and version not in tls_versions:
+                        tls_versions.append(version)
             
-            # Check for successful handshake
-            # A successful TLS handshake typically shows "Verify return code: 0"
-            # or some certificate information without error messages
-            if "Verify return code:" in stdout and "error" not in stderr.lower():
-                # Additional verification for modern protocols
-                if version_name in ["TLSv1.2", "TLSv1.3"]:
-                    # Look for protocol-specific markers
-                    if f"Protocol  : {version_name}" in stdout:
+    except (subprocess.SubprocessError, subprocess.TimeoutExpired):
+        # If nmap fails, fall back to our previous method for all versions
+        versions = [
+            ("SSLv2", "-ssl2"),
+            ("SSLv3", "-ssl3"),
+            ("TLSv1.0", "-tls1"),
+            ("TLSv1.1", "-tls1_1"),
+            ("TLSv1.2", "-tls1_2")
+        ]
+        
+        for version_name, version_flag in versions:
+            try:
+                process = subprocess.run(
+                    ["openssl", "s_client", version_flag, "-connect", f"{domain}:443"],
+                    input=b'\n',
+                    capture_output=True,
+                    timeout=5
+                )
+                
+                stdout = process.stdout.decode('utf-8', errors='ignore')
+                stderr = process.stderr.decode('utf-8', errors='ignore')
+                
+                if "Verify return code:" in stdout and process.returncode == 0:
+                    if not any(err in stderr.lower() for err in ["handshake failure", "no protocols available"]):
                         tls_versions.append(version_name)
-                else:
-                    tls_versions.append(version_name)
-        except (subprocess.SubprocessError, subprocess.TimeoutExpired):
-            # If this TLS version check fails, just continue with the next one
-            continue
+            except Exception:
+                continue
+    
+    # Use openssl to check for TLSv1.3 (which nmap doesn't support)
+    try:
+        process = subprocess.run(
+            ["openssl", "s_client", "-tls1_3", "-connect", f"{domain}:443"],
+            input=b'\n',
+            capture_output=True,
+            timeout=5
+        )
+        
+        stdout = process.stdout.decode('utf-8', errors='ignore')
+        stderr = process.stderr.decode('utf-8', errors='ignore')
+        
+        if "Verify return code:" in stdout and process.returncode == 0:
+            if not any(err in stderr.lower() for err in ["handshake failure", "no protocols available"]):
+                tls_versions.append("TLSv1.3")
+    except Exception:
+        pass
     
     return tls_versions
 
@@ -429,8 +475,6 @@ def get_rtt_range(ipv4_addresses):
                 # Calculate RTT in milliseconds
                 rtt = (end_time - start_time) * 1000
                 rtts.append(rtt)
-                print(f"RTT for {ip}:{port} = {rtt} ms")
-                
                 # One successful connection is enough for this IP/port combination
                 break
             except Exception:
@@ -506,6 +550,7 @@ def scan_domain(domain):
     
     # a) scan_time - Record when the scan started
     results["scan_time"] = get_scan_time()
+    print("Done with scan_time")
     
     # b) ipv4_addresses - Get IPv4 addresses
     ipv4_addresses = get_ipv4_addresses(domain)

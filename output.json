@@ -1,73 +1,51 @@
 {
-    "google.com": {
+    "facebook.com": {
         "geo_locations": [
-            "United States"
+            "Saint-Denis, \u00cele-de-France, France",
+            "Highlands Ranch, Colorado, United States",
+            "Southfield, Michigan, United States",
+            "Chicago, Illinois, United States",
+            "Dallas, Texas, United States"
         ],
         "hsts": true,
-        "http_server": "gws",
+        "http_server": null,
         "insecure_http": true,
         "ipv4_addresses": [
-            "142.250.190.14",
-            "142.250.115.102",
-            "172.217.0.174",
-            "142.250.115.113",
-            "172.217.1.110",
-            "142.250.115.100",
-            "142.250.69.46",
-            "142.250.115.139",
-            "142.250.115.101",
-            "172.217.20.174",
-            "142.250.115.138",
-            "142.250.191.110",
-            "142.250.190.110",
-            "142.250.191.206",
-            "142.250.191.238"
+            "57.144.174.1",
+            "57.144.172.1",
+            "31.13.93.35",
+            "157.240.202.35",
+            "157.240.254.35",
+            "57.144.104.1"
         ],
         "ipv6_addresses": [
-            "2607:f8b0:4009:803::200e",
-            "2607:f8b0:4009:81b::200e",
-            "2607:f8b0:4009:818::200e",
-            "2607:f8b0:4009:814::200e",
-            "2607:f8b0:4009:80b::200e",
-            "2607:f8b0:4020:800::200e",
-            "2607:f8b0:4009:81a::200e",
-            "2607:f8b0:4009:802::200e",
-            "2a00:1450:4007:80c::200e"
+            "2a03:2880:f17b:187:face:b00c:0:25de",
+            "2a03:2880:f356:1:face:b00c:0:25de",
+            "2a03:2880:f32b:9:face:b00c:0:25de",
+            "2a03:2880:f175:181:face:b00c:0:25de",
+            "2a03:2880:f134:183:face:b00c:0:25de",
+            "2a03:2880:f357:1:face:b00c:0:25de"
         ],
         "rdns_names": [
-            "ord37s32-in-f14.1e100.net",
-            "rq-in-f102.1e100.net",
-            "yyz08s10-in-f174.1e100.net",
-            "mia09s16-in-f14.1e100.net",
-            "ord38s42-in-f14.1e100.net",
-            "rq-in-f113.1e100.net",
-            "mia09s17-in-f14.1e100.net",
-            "ord37s51-in-f14.1e100.net",
-            "yyz08s09-in-f110.1e100.net",
-            "yyz08s09-in-f14.1e100.net",
-            "rq-in-f100.1e100.net",
-            "qro02s19-in-f14.1e100.net",
-            "pnyula-aa-in-f14.1e100.net",
-            "rq-in-f139.1e100.net",
-            "rq-in-f101.1e100.net",
-            "waw02s07-in-f174.1e100.net",
-            "par10s49-in-f14.1e100.net",
-            "waw02s07-in-f14.1e100.net",
-            "rq-in-f138.1e100.net",
-            "ord38s28-in-f14.1e100.net",
-            "ord37s35-in-f14.1e100.net",
-            "ord38s31-in-f14.1e100.net",
-            "ord38s32-in-f14.1e100.net"
+            "edge-star-mini-shv-03-ord5.facebook.com",
+            "edge-star-mini-shv-01-det1.facebook.com",
+            "edge-star-mini-shv-02-dfw5.facebook.com",
+            "edge-star-mini-shv-02-cdg4.facebook.com",
+            "edge-star-mini-shv-02-ord5.facebook.com",
+            "edge-star-mini-shv-01-den2.facebook.com"
         ],
-        "redirect_to_https": false,
-        "root_ca": "Google Trust Services LLC",
+        "redirect_to_https": true,
+        "root_ca": "DigiCert Inc",
         "rtt_range": [
-            13.000249862670898,
-            123.86703491210938
+            14.665365219116211,
+            137.4826431274414
         ],
-        "scan_time": 1741735021.6608677,
+        "scan_time": 1741736922.3353176,
         "tls_versions": [
-            "TLSv1.2"
+            "TLSv1.0",
+            "TLSv1.1",
+            "TLSv1.2",
+            "TLSv1.3"
         ]
     }
 }

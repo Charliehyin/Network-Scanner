@@ -175,58 +175,106 @@ def check_insecure_http(domain):
     except Exception:
         return False
 
-def check_redirect_to_https(domain):
-    """Check if HTTP requests are redirected to HTTPS."""
-    if not check_insecure_http(domain):
-        return False
+import socket
+import requests
+import json
+import sys
+from urllib.parse import urlparse
+
+import socket
+import requests
+import json
+import sys
+from urllib.parse import urlparse, urljoin
+
+def check_http_redirect(hostname, max_redirects=10):
+    """
+    Check if HTTP requests on port 80 are redirected to HTTPS on port 443.
+    
+    Args:
+        hostname (str): The hostname to check
+        max_redirects (int): Maximum number of redirects to follow
         
+    Returns:
+        dict: A dictionary with 'redirect_to_https' boolean key
+    """
+    result = {"redirect_to_https": False}
+    
+    # First check if the site even listens on port 80
     try:
-        # Start with a session to maintain cookies
-        session = requests.Session()
-        current_url = f"http://{domain}"
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(3)
+        sock.connect((hostname, 80))
+        sock.close()
+    except (socket.timeout, socket.error):
+        # Website doesn't listen on port 80, so it can't redirect
+        return result
+    
+    # Construct the initial HTTP URL
+    http_url = f"http://{hostname}/"
+    
+    try:
+        # Make request with manual redirect handling
+        current_url = http_url
         redirect_count = 0
-        max_redirects = 10
         
         while redirect_count < max_redirects:
-            response = session.get(
-                current_url, 
-                timeout=5,
-                allow_redirects=False
-            )
+            # Use a short timeout and set proper headers
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.5',
+            }
             
-            # Check if we reached a success response
-            if 200 <= response.status_code < 300:
-                # If we're at HTTPS, then the redirect was successful
-                return current_url.startswith('https://')
-                
-            # Check for redirect status codes
+            response = requests.get(current_url, 
+                                   headers=headers,
+                                   allow_redirects=False, 
+                                   timeout=10)
+            
+            # Check for redirect status codes (300-399)
             if 300 <= response.status_code < 400:
-                redirect_url = response.headers.get('Location')
-                if not redirect_url:
-                    break
+                if 'Location' in response.headers:
+                    next_url = response.headers['Location']
                     
-                # Handle relative URLs
-                if redirect_url.startswith('/'):
-                    parsed_url = urlparse(current_url)
-                    redirect_url = f"{parsed_url.scheme}://{parsed_url.netloc}{redirect_url}"
-                # Handle protocol-relative URLs
-                elif redirect_url.startswith('//'):
-                    parsed_url = urlparse(current_url)
-                    redirect_url = f"{parsed_url.scheme}:{redirect_url}"
-                
-                current_url = redirect_url
-                redirect_count += 1
-                
-                # If at any point we're at HTTPS, return success
-                if current_url.startswith('https://'):
-                    return True
+                    # Handle relative URLs properly
+                    if not (next_url.startswith('http://') or next_url.startswith('https://')):
+                        next_url = urljoin(current_url, next_url)
+                    
+                    # Check if we've been redirected to HTTPS
+                    if next_url.startswith('https://'):
+                        result["redirect_to_https"] = True
+                        break
+                    
+                    # Continue following redirect chain
+                    current_url = next_url
+                    redirect_count += 1
+                else:
+                    # Redirect with no Location header
+                    break
             else:
-                # Non-redirect status code means we're done
+                # Check the final URL even if no explicit redirect
+                # Some sites use JavaScript or other means to redirect
+                final_url = response.url
+                if final_url.startswith('https://'):
+                    result["redirect_to_https"] = True
                 break
-                
-        return False
-    except Exception:
-        return False
+        
+        # Check if we reached maximum redirects but last URL was HTTPS
+        if redirect_count == max_redirects and current_url.startswith('https://'):
+            result["redirect_to_https"] = True
+    
+    except requests.exceptions.RequestException as e:
+        # Log the error for debugging
+        print(f"Error: {str(e)}", file=sys.stderr)
+        
+        # If there was a connection error but the URL changed to HTTPS, it might
+        # still be a valid redirect
+        if 'current_url' in locals() and current_url.startswith('https://'):
+            result["redirect_to_https"] = True
+    
+    return result
+
+
 
 def check_hsts(domain):
     """Check if the website has HTTP Strict Transport Security enabled."""
@@ -573,7 +621,7 @@ def scan_domain(domain):
     print("Done with insecure_http")
     
     # f) redirect_to_https - Check if HTTP redirects to HTTPS
-    results["redirect_to_https"] = check_redirect_to_https(domain)
+    results["redirect_to_https"] = check_http_redirect(domain)
     print("Done with redirect_to_https")
     
     # g) hsts - Check for HTTP Strict Transport Security

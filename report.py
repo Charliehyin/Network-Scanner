@@ -134,8 +134,8 @@ def create_server_table(scan_results):
     
     for data in scan_results.values():
         http_server = data.get('http_server')
-        if http_server:
-            server_counter[http_server] += 1
+        # Always count the server, even if it's None
+        server_counter[http_server] += 1
     
     # Sort by occurrence count (most to least)
     server_counts = server_counter.most_common()
@@ -150,8 +150,10 @@ def create_server_table(scan_results):
     
     total_domains = len(scan_results)
     for server, count in server_counts:
+        # Convert None to a readable string for display
+        server_name = "None" if server is None else server
         percentage = (count / total_domains) * 100
-        table.add_row([server, count, percentage])
+        table.add_row([server_name, count, percentage])
     
     return table.draw()
 

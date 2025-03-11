@@ -1,129 +1,72 @@
 {
-    "facebook.com": {
-        "geo_locations": [
-            "Berkeley, California, United States",
-            "Chicago, Illinois, United States",
-            "San Francisco, California, United States"
-        ],
-        "hsts": true,
-        "http_server": null,
-        "insecure_http": true,
-        "ipv4_addresses": [
-            "1.1.1.1",
-            "9.9.9.9",
-            "157.240.254.35",
-            "208.67.222.222",
-            "8.8.8.8"
-        ],
-        "ipv6_addresses": [
-            "2a03:2880:f357:1:face:b00c:0:25de",
-            "2a03:2880:f175:181:face:b00c:0:25de"
-        ],
-        "rdns_names": [
-            "one.one.one.one",
-            "dns9.quad9.net",
-            "edge-star-mini-shv-02-ord5.facebook.com",
-            "dns.sse.cisco.com",
-            "resolver1.opendns.com",
-            "dns.umbrella.com",
-            "dns.opendns.com",
-            "dns.google"
-        ],
-        "redirect_to_https": true,
-        "root_ca": null,
-        "rtt_range": [
-            18.8906192779541,
-            27.241945266723633
-        ],
-        "scan_time": 1741565259.2468042,
-        "tls_versions": [
-            "TLSv1.0",
-            "TLSv1.1",
-            "TLSv1.2"
-        ]
-    },
     "google.com": {
         "geo_locations": [
-            "Berkeley, California, United States",
-            "San Francisco, California, United States"
+            "United States"
         ],
-        "hsts": false,
+        "hsts": true,
         "http_server": "gws",
         "insecure_http": true,
         "ipv4_addresses": [
-            "1.1.1.1",
+            "142.250.190.14",
+            "142.250.115.102",
+            "172.217.0.174",
+            "142.250.115.113",
+            "172.217.1.110",
+            "142.250.115.100",
+            "142.250.69.46",
+            "142.250.115.139",
+            "142.250.115.101",
+            "172.217.20.174",
+            "142.250.115.138",
             "142.250.191.110",
-            "9.9.9.9",
-            "208.67.222.222",
-            "8.8.8.8"
+            "142.250.190.110",
+            "142.250.191.206",
+            "142.250.191.238"
         ],
         "ipv6_addresses": [
+            "2607:f8b0:4009:803::200e",
+            "2607:f8b0:4009:81b::200e",
+            "2607:f8b0:4009:818::200e",
             "2607:f8b0:4009:814::200e",
-            "2607:f8b0:4009:808::200e",
+            "2607:f8b0:4009:80b::200e",
+            "2607:f8b0:4020:800::200e",
             "2607:f8b0:4009:81a::200e",
-            "2607:f8b0:4009:81b::200e"
+            "2607:f8b0:4009:802::200e",
+            "2a00:1450:4007:80c::200e"
         ],
         "rdns_names": [
-            "one.one.one.one",
+            "ord37s32-in-f14.1e100.net",
+            "rq-in-f102.1e100.net",
+            "yyz08s10-in-f174.1e100.net",
+            "mia09s16-in-f14.1e100.net",
+            "ord38s42-in-f14.1e100.net",
+            "rq-in-f113.1e100.net",
+            "mia09s17-in-f14.1e100.net",
+            "ord37s51-in-f14.1e100.net",
+            "yyz08s09-in-f110.1e100.net",
+            "yyz08s09-in-f14.1e100.net",
+            "rq-in-f100.1e100.net",
+            "qro02s19-in-f14.1e100.net",
+            "pnyula-aa-in-f14.1e100.net",
+            "rq-in-f139.1e100.net",
+            "rq-in-f101.1e100.net",
+            "waw02s07-in-f174.1e100.net",
+            "par10s49-in-f14.1e100.net",
+            "waw02s07-in-f14.1e100.net",
+            "rq-in-f138.1e100.net",
             "ord38s28-in-f14.1e100.net",
-            "dns9.quad9.net",
-            "dns.umbrella.com",
-            "dns.opendns.com",
-            "dns.sse.cisco.com",
-            "resolver1.opendns.com",
-            "dns.google"
+            "ord37s35-in-f14.1e100.net",
+            "ord38s31-in-f14.1e100.net",
+            "ord38s32-in-f14.1e100.net"
         ],
         "redirect_to_https": false,
-        "root_ca": null,
+        "root_ca": "Google Trust Services LLC",
         "rtt_range": [
-            10.287046432495117,
-            20.543336868286133
+            13.000249862670898,
+            123.86703491210938
         ],
-        "scan_time": 1741565253.063338,
+        "scan_time": 1741735021.6608677,
         "tls_versions": [
-            "TLSv1.0",
-            "TLSv1.1",
-            "TLSv1.2"
-        ]
-    },
-    "northwestern.edu": {
-        "geo_locations": [
-            "Skokie, Illinois, United States",
-            "San Francisco, California, United States",
-            "Berkeley, California, United States"
-        ],
-        "hsts": false,
-        "http_server": "Apache",
-        "insecure_http": true,
-        "ipv4_addresses": [
-            "1.1.1.1",
-            "129.105.136.48",
-            "9.9.9.9",
-            "208.67.222.222",
-            "8.8.8.8"
-        ],
-        "ipv6_addresses": [],
-        "rdns_names": [
-            "one.one.one.one",
-            "evcommon-caesar-vip.northwestern.edu",
-            "cnair.northwestern.edu",
-            "dns9.quad9.net",
-            "resolver1.opendns.com",
-            "dns.umbrella.com",
-            "dns.opendns.com",
-            "dns.sse.cisco.com",
-            "dns.google"
-        ],
-        "redirect_to_https": true,
-        "root_ca": null,
-        "rtt_range": [
-            23.55790138244629,
-            38.875579833984375
-        ],
-        "scan_time": 1741565265.8748448,
-        "tls_versions": [
-            "TLSv1.0",
-            "TLSv1.1",
             "TLSv1.2"
         ]
     }

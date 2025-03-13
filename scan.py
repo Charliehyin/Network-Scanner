@@ -301,7 +301,7 @@ def get_tls_versions(domain):
             
             for version, indicators in version_indicators.items():
                 if any(indicator in line for indicator in indicators):
-                    # Check if this line indicates the version is not offered
+                    #check if the version is not offered
                     not_offered = any(phrase in line.lower() for phrase in 
                                       ["not offered", "no supported ciphers", "disabled"])
                     
@@ -309,7 +309,7 @@ def get_tls_versions(domain):
                         tls_versions.append(version)
             
     except (subprocess.SubprocessError, subprocess.TimeoutExpired):
-        # If nmap fails, fall back to our previous method for all versions
+        #backup in case
         versions = [
             ("SSLv2", "-ssl2"),
             ("SSLv3", "-ssl3"),
@@ -337,7 +337,6 @@ def get_tls_versions(domain):
             except Exception:
                 continue
     
-    # Use openssl to check for TLSv1.3 (which nmap doesn't support)
     try:
         process = subprocess.run(
             ["openssl", "s_client", "-tls1_3", "-connect", f"{domain}:443"],
@@ -358,9 +357,8 @@ def get_tls_versions(domain):
     
     return tls_versions
 def get_root_ca(domain):
-    """Get the root certificate authority (CA) organization name."""
+    """Get the root certificate authority (CA) organization name using regex on depth lines."""
     try:
-        #get full cert chain
         output = subprocess.check_output(
             ["openssl", "s_client", "-connect", f"{domain}:443", "-showcerts"],
             input=b'',
@@ -368,42 +366,20 @@ def get_root_ca(domain):
             stderr=subprocess.STDOUT
         ).decode('utf-8', errors='ignore')
         
-        cert_blocks = []
-        current_block = []
-        in_cert = False
+        pattern = r"depth=(\d+).*?O\s*=\s*([^,/\n]+)"
+        matches = re.finditer(pattern, output)
         
-        for line in output.split('\n'):
-            if '-----BEGIN CERTIFICATE-----' in line:
-                in_cert = True
-                current_block = [line]
-            elif '-----END CERTIFICATE-----' in line:
-                current_block.append(line)
-                cert_blocks.append('\n'.join(current_block))
-                in_cert = False
-            elif in_cert:
-                current_block.append(line)
+        max_depth = -1
+        org_name = None
         
-        # The last certificate in the chain should be the root CA
-        if cert_blocks:
-            # Write the last certificate to a temporary file
-            with open('temp_cert.pem', 'w') as f:
-                f.write(cert_blocks[-1])
-            
-            # Use openssl x509 to extract the subject
-            subj_output = subprocess.check_output(
-                ["openssl", "x509", "-in", "temp_cert.pem", "-noout", "-subject"],
-                timeout=2
-            ).decode('utf-8')
-            
-            # Extract the organization
-            if 'O = ' in subj_output:
-                org_part = subj_output.split('O = ')[1].split(',')[0].strip()
-                return org_part
-            
-            # Clean up the temporary file
-            os.remove('temp_cert.pem')
-            
-        return None
+        for match in matches:
+            depth = int(match.group(1))
+            org = match.group(2).strip()
+            if depth > max_depth:
+                max_depth = depth
+                org_name = org
+        
+        return org_name
     except Exception:
         return None
 
@@ -413,10 +389,8 @@ def get_rdns_names(ipv4_addresses):
     
     for ip in ipv4_addresses:
         try:
-            # Reverse the IP address for PTR query
             reversed_ip = '.'.join(reversed(ip.split('.'))) + '.in-addr.arpa'
             
-            # Try using subprocess with nslookup for PTR record
             output = subprocess.check_output(
                 ["nslookup", "-type=PTR", reversed_ip],
                 timeout=2,
@@ -430,26 +404,24 @@ def get_rdns_names(ipv4_addresses):
                         name = name[:-1] 
                     rdns_names.append(name)
         except Exception:
-            # Try using dnspython as a fallback
+            #try again with dnspy
             try:
                 answers = dns.resolver.resolve(reversed_ip, 'PTR')
                 for answer in answers:
                     name = answer.to_text()
                     if name.endswith('.'):
-                        name = name[:-1]  # Remove trailing dot
+                        name = name[:-1]  
                     rdns_names.append(name)
             except Exception:
-                # If both methods fail, just continue
                 continue
     
     return rdns_names
 
 def get_rtt_range(ipv4_addresses):
-    """Get the min and max round trip time to the IP addresses."""
     rtts = []
     
     for ip in ipv4_addresses:
-        for port in [443, 80, 22]:  # Try common ports
+        for port in [443, 80, 22]: #multiple common ports
             try:
                 start_time = time.time()
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

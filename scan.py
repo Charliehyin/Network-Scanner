@@ -33,13 +33,12 @@ PUBLIC_DNS_RESOLVERS = [
 ]
 
 def get_scan_time():
-    """Get the current time in Unix epoch seconds."""
     return time.time()
 
 def get_ipv4_addresses(domain):
     """Get IPv4 addresses for a domain using nslookup with multiple DNS resolvers."""
     ipv4_addresses = set()
-    resolver_ips = set(PUBLIC_DNS_RESOLVERS)  # Create a set of resolver IPs to filter them out
+    resolver_ips = set(PUBLIC_DNS_RESOLVERS) 
     
     # Try DNS resolution with multiple public resolvers
     for resolver in PUBLIC_DNS_RESOLVERS:
@@ -49,24 +48,17 @@ def get_ipv4_addresses(domain):
                 timeout=2,
                 stderr=subprocess.STDOUT
             ).decode("utf-8")
-            
-            # Parse the nslookup output to extract IPv4 addresses
             in_answer_section = False
             lines = output.split("\n")
             
             for line in lines:
-                # Check if we've entered the answer section
                 if "Non-authoritative answer:" in line:
                     in_answer_section = True
                     continue
                 
-                # Skip resolver address
                 if "Address:" in line and not in_answer_section:
                     continue
-                    
-                # If in answer section, look for both "Address:" and "Addresses:"
                 if in_answer_section:
-                    # Extract from "Addresses:" line (could be IPv4 or IPv6)
                     if "Addresses:" in line:
                         parts = line.split("Addresses:")[1].strip().split()
                         for part in parts:
@@ -75,9 +67,7 @@ def get_ipv4_addresses(domain):
                                 if str(ipv4) not in resolver_ips:
                                     ipv4_addresses.add(str(ipv4))
                             except ValueError:
-                                # Not a valid IPv4 address, skip it
                                 pass
-                    # Extract from "Address:" line
                     elif "Address:" in line:
                         ip = line.split("Address:")[1].strip()
                         try:
@@ -85,9 +75,7 @@ def get_ipv4_addresses(domain):
                             if str(ipv4) not in resolver_ips:
                                 ipv4_addresses.add(str(ipv4))
                         except ValueError:
-                            # Not a valid IPv4 address, skip it
                             pass
-                    # Check indented lines that might contain just an IP
                     elif line.strip() and line[0].isspace():
                         ip = line.strip()
                         try:
@@ -95,20 +83,16 @@ def get_ipv4_addresses(domain):
                             if str(ipv4) not in resolver_ips:
                                 ipv4_addresses.add(str(ipv4))
                         except ValueError:
-                            # Not a valid IPv4 address, skip it
                             pass
                     
-        except (subprocess.SubprocessError, subprocess.TimeoutExpired):
-            # If this resolver fails, just continue with the next one
+        except:
             continue
             
     return list(ipv4_addresses)
 
 def get_ipv6_addresses(domain):
-    """Get IPv6 addresses for a domain using nslookup with multiple DNS resolvers."""
     ipv6_addresses = set()
     
-    # Try DNS resolution with multiple public resolvers
     for resolver in PUBLIC_DNS_RESOLVERS:
         try:
             output = subprocess.check_output(
@@ -117,24 +101,22 @@ def get_ipv6_addresses(domain):
                 stderr=subprocess.STDOUT
             ).decode("utf-8")
             
-            # Parse the nslookup output to extract IPv6 addresses
+            #parse output
             lines = output.split("\n")
             for line in lines:
                 if "Address:" in line and not line.startswith("Server:"):
                     ip = line.split("Address:")[1].strip()
                     try:
-                        # Validate that this is a valid IPv6 address
+                        #validate
                         ipaddress.IPv6Address(ip)
                         ipv6_addresses.add(ip)
                     except ValueError:
-                        # Not a valid IPv6 address, skip it
                         pass
                         
         except (subprocess.SubprocessError, subprocess.TimeoutExpired):
-            # If this resolver fails, just continue with the next one
             continue
     
-    # Also try with dnspython for completeness
+    #try with dns
     try:
         answers = dns.resolver.resolve(domain, 'AAAA')
         for answer in answers:
@@ -145,10 +127,9 @@ def get_ipv6_addresses(domain):
     return list(ipv6_addresses)
 
 def get_http_server(domain):
-    """Get the HTTP server header from the domain."""
     server_header = None
     
-    # Try HTTP first
+    # http
     try:
         response = requests.get(f"http://{domain}", timeout=5, allow_redirects=True)
         server_header = response.headers.get("Server")
@@ -156,7 +137,7 @@ def get_http_server(domain):
         print(f"HTTP request failed: {str(e)}")
         pass
     
-    # If HTTP failed or didn't provide a Server header, try HTTPS
+    #try https
     if not server_header:
         try:
             response = requests.get(f"https://{domain}", timeout=5, allow_redirects=True)
@@ -164,10 +145,9 @@ def get_http_server(domain):
         except Exception:
             pass
     
-    return server_header  # Will be None (null in JSON) if not found
+    return server_header 
 
 def check_insecure_http(domain):
-    """Check if the website listens for unencrypted HTTP requests on port 80."""
     try:
         conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         conn.settimeout(2)
@@ -179,27 +159,23 @@ def check_insecure_http(domain):
 
 def check_http_redirect(hostname, max_redirects=10):
     result = False
-    
-    # First check if the site even listens on port 80
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(3)
         sock.connect((hostname, 80))
         sock.close()
     except (socket.timeout, socket.error):
-        # Website doesn't listen on port 80, so it can't redirect
         return result
     
-    # Construct the initial HTTP URL
     http_url = f"http://{hostname}/"
     
     try:
-        # Make request with manual redirect handling
+        #make request
         current_url = http_url
         redirect_count = 0
         
         while redirect_count < max_redirects:
-            # Use a short timeout and set proper headers
+            #headers for request 
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -211,55 +187,44 @@ def check_http_redirect(hostname, max_redirects=10):
                                    allow_redirects=False, 
                                    timeout=10)
             
-            # Check for redirect status codes (300-399)
+            # 300 = redirect
             if 300 <= response.status_code < 400:
                 if 'Location' in response.headers:
                     next_url = response.headers['Location']
                     
-                    # Handle relative URLs properly
                     if not (next_url.startswith('http://') or next_url.startswith('https://')):
                         next_url = urljoin(current_url, next_url)
                     
-                    # Check if we've been redirected to HTTPS
+                    #check for https
                     if next_url.startswith('https://'):
                         result = True
                         break
                     
-                    # Continue following redirect chain
+                    #go on chain
                     current_url = next_url
                     redirect_count += 1
                 else:
-                    # Redirect with no Location header
                     break
             else:
-                # Check the final URL even if no explicit redirect
-                # Some sites use JavaScript or other means to redirect
+                # safety check last
                 final_url = response.url
                 if final_url.startswith('https://'):
                     result = True
                 break
         
-        # Check if we reached maximum redirects but last URL was HTTPS
+        # safetycheck last (again)
         if redirect_count == max_redirects and current_url.startswith('https://'):
             result = True
     
     except requests.exceptions.RequestException as e:
-        # Log the error for debugging
         print(f"Error: {str(e)}", file=sys.stderr)
         
-        # If there was a connection error but the URL changed to HTTPS, it might
-        # still be a valid redirect
-        if 'current_url' in locals() and current_url.startswith('https://'):
-            result = True
-    
     return result
 
 
 
 def check_hsts(domain):
-    """Check if the website has HTTP Strict Transport Security enabled."""
     try:
-        # First check if the domain is in the HSTS preload list
         try:
             preload_check = requests.get(f"https://hstspreload.org/api/v2/status?domain={domain}", timeout=5)
             if preload_check.status_code == 200:
@@ -267,20 +232,19 @@ def check_hsts(domain):
                 if preload_data.get("status") == "preloaded":
                     return True
         except Exception:
-            pass  # Continue with direct checks if preload check fails
+            pass 
         
         # Try multiple paths with redirects enabled
-        paths = ["", "/", "/index.html", "/home", "/search", "/about"]
+        paths = ["", "/"]
         for path in paths:
             try:
                 response = requests.get(f"https://{domain}{path}", timeout=5, allow_redirects=True)
                 
-                # Check for HSTS header
+                # check header
                 hsts_header = response.headers.get('Strict-Transport-Security')
                 if hsts_header is not None:
                     return True
                     
-                # Also check for HSTS in response history (redirects)
                 for r in response.history:
                     hsts_header = r.headers.get('Strict-Transport-Security')
                     if hsts_header is not None:
@@ -288,17 +252,15 @@ def check_hsts(domain):
             except Exception:
                 continue
                 
-        # If still not found, try www subdomain
+        # try with subdomain
         if not domain.startswith('www.'):
             try:
                 response = requests.get(f"https://www.{domain}", timeout=5, allow_redirects=True)
                 
-                # Check for HSTS header
                 hsts_header = response.headers.get('Strict-Transport-Security')
                 if hsts_header is not None:
                     return True
                     
-                # Also check for HSTS in response history
                 for r in response.history:
                     hsts_header = r.headers.get('Strict-Transport-Security')
                     if hsts_header is not None:
@@ -314,19 +276,17 @@ def get_tls_versions(domain):
     """Check which TLS versions are supported by the server."""
     tls_versions = []
     
-    # Use nmap to check for SSLv2, SSLv3, TLSv1.0, TLSv1.1, and TLSv1.2
     try:
-        # Run nmap with ssl-enum-ciphers script
+        # nmap with ssl-enum-ciphers script
         process = subprocess.run(
             ["nmap", "--script", "ssl-enum-ciphers", "-p", "443", domain],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            timeout=30  # nmap can take longer
+            timeout=30 
         )
         
         output = process.stdout.decode('utf-8', errors='ignore')
         
-        # Parse nmap output to find supported TLS versions
         version_indicators = {
             "SSLv2": ["SSLv2", "SSL2"],
             "SSLv3": ["SSLv3", "SSL3"],
@@ -339,7 +299,6 @@ def get_tls_versions(domain):
         for line in lines:
             line = line.strip()
             
-            # Check each version
             for version, indicators in version_indicators.items():
                 if any(indicator in line for indicator in indicators):
                     # Check if this line indicates the version is not offered
@@ -401,7 +360,7 @@ def get_tls_versions(domain):
 def get_root_ca(domain):
     """Get the root certificate authority (CA) organization name."""
     try:
-        # Use -showcerts to get the full certificate chain
+        #get full cert chain
         output = subprocess.check_output(
             ["openssl", "s_client", "-connect", f"{domain}:443", "-showcerts"],
             input=b'',
@@ -409,7 +368,6 @@ def get_root_ca(domain):
             stderr=subprocess.STDOUT
         ).decode('utf-8', errors='ignore')
         
-        # Find all certificates in the chain
         cert_blocks = []
         current_block = []
         in_cert = False
@@ -451,7 +409,6 @@ def get_root_ca(domain):
 
 
 def get_rdns_names(ipv4_addresses):
-    """Get reverse DNS names for IPv4 addresses."""
     rdns_names = []
     
     for ip in ipv4_addresses:
@@ -466,12 +423,11 @@ def get_rdns_names(ipv4_addresses):
                 stderr=subprocess.STDOUT
             ).decode('utf-8')
             
-            # Parse the output to find PTR records
             for line in output.split('\n'):
                 if 'name = ' in line.lower():
                     name = line.split('name = ')[1].strip()
                     if name.endswith('.'):
-                        name = name[:-1]  # Remove trailing dot
+                        name = name[:-1] 
                     rdns_names.append(name)
         except Exception:
             # Try using dnspython as a fallback
@@ -495,7 +451,6 @@ def get_rtt_range(ipv4_addresses):
     for ip in ipv4_addresses:
         for port in [443, 80, 22]:  # Try common ports
             try:
-                # Use socket to measure RTT
                 start_time = time.time()
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 sock.settimeout(2)
@@ -503,10 +458,8 @@ def get_rtt_range(ipv4_addresses):
                 sock.close()
                 end_time = time.time()
                 
-                # Calculate RTT in milliseconds
                 rtt = (end_time - start_time) * 1000
                 rtts.append(rtt)
-                # One successful connection is enough for this IP/port combination
                 break
             except Exception:
                 continue
@@ -517,7 +470,6 @@ def get_rtt_range(ipv4_addresses):
     return [min(rtts), max(rtts)]
 
 def get_geo_locations(ipv4_addresses):
-    """Get geographic locations for IP addresses using MaxMind database."""
     locations = set()
     
     try:
@@ -525,7 +477,6 @@ def get_geo_locations(ipv4_addresses):
         import os
         import sys
         
-        # Check if the database file exists
         if not os.path.exists('GeoLite2-City.mmdb'):
             sys.stderr.write("Error: GeoLite2-City.mmdb not found in the current directory.\n")
             return []
@@ -552,7 +503,7 @@ def get_geo_locations(ipv4_addresses):
                         if 'country' in result and 'names' in result['country'] and 'en' in result['country']['names']:
                             country = result['country']['names']['en']
                         
-                        # Only add the location if all three components are present
+                        #only add the location if all three components are present
                         if city and region and country:
                             location = ", ".join([city, region, country])
                             locations.add(location)
@@ -569,44 +520,44 @@ def scan_domain(domain):
     """Scan a domain and return a dictionary of results."""
     results = {}
     
-    # a) scan_time - Record when the scan started
+    #a) scan_time
     results["scan_time"] = get_scan_time()
     print("Done with scan_time")
     
-    # b) ipv4_addresses - Get IPv4 addresses
+    # b) ipv4_addresses 
     ipv4_addresses = get_ipv4_addresses(domain)
     results["ipv4_addresses"] = ipv4_addresses
     print("Done with ipv4_addresses")
     
-    # c) ipv6_addresses - Get IPv6 addresses
+    # c) ipv6_addresses
     results["ipv6_addresses"] = get_ipv6_addresses(domain)
     print("Done with ipv6 addresses")
     
-    # d) http_server - Get HTTP server header
+    # d) http_server
     http_server = get_http_server(domain)
     if http_server:
         results["http_server"] = http_server
     else:
         results["http_server"] = None
     
-    # e) insecure_http - Check if the website supports unencrypted HTTP
+    # e) insecure_http 
     results["insecure_http"] = check_insecure_http(domain)
     print("Done with insecure_http")
     
-    # f) redirect_to_https - Check if HTTP redirects to HTTPS
+    # f) redirect_to_https 
     results["redirect_to_https"] = check_http_redirect(domain)
     print("Done with redirect_to_https")
     
-    # g) hsts - Check for HTTP Strict Transport Security
+    # g) hsts 
     results["hsts"] = check_hsts(domain)
     print("Done with hsts")
     
-    # h) tls_versions - Check supported TLS versions
+    # h) tls_versions 
     tls_versions = get_tls_versions(domain)
     if tls_versions:
         results["tls_versions"] = tls_versions
     print("Done with tls_versions")
-    # i) root_ca - Get root certificate authority
+    # i) root_ca 
     root_ca = get_root_ca(domain)
     if root_ca:
         results["root_ca"] = root_ca
@@ -614,13 +565,13 @@ def scan_domain(domain):
         results["root_ca"] = None
     print("Done with root_ca")
 
-    # j) rdns_names - Get reverse DNS names
+    # j) rdns_names 
     if ipv4_addresses:
         rdns_names = get_rdns_names(ipv4_addresses)
         results["rdns_names"] = rdns_names
     print("Done with rdns_names")
 
-    # k) rtt_range - Get RTT range
+    # k) rtt_range
     if ipv4_addresses:
         rtt_range = get_rtt_range(ipv4_addresses)
         if rtt_range:
@@ -628,7 +579,7 @@ def scan_domain(domain):
         else:
             results["rtt_range"] = None
     print("Done with rtt_range")
-    # l) geo_locations - Get geographic locations
+    # l) geo_locations
     if ipv4_addresses:
         geo_locations = get_geo_locations(ipv4_addresses)
         if geo_locations:
@@ -647,7 +598,6 @@ def main():
     input_file = sys.argv[1]
     output_file = sys.argv[2]
     
-    # Read domains from the input file
     try:
         with open(input_file, "r") as f:
             domains = [line.strip() for line in f if line.strip()]
@@ -655,13 +605,12 @@ def main():
         print(f"Error: Input file '{input_file}' not found.")
         sys.exit(1)
     
-    # Scan each domain
     scan_results = {}
     for domain in domains:
         print(f"Scanning {domain}...")
         scan_results[domain] = scan_domain(domain)
     
-    # Write results to the output file with nice formatting
+    # write results
     with open(output_file, "w") as f:
         json.dump(scan_results, f, sort_keys=True, indent=4)
     

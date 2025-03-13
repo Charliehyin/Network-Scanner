@@ -85,10 +85,9 @@ def create_rtt_table(scan_results):
         if rtt_range:
             rtt_data.append((domain, rtt_range[0], rtt_range[1]))
     
-    # Sort by minimum RTT (fastest to slowest)
+    # sort by rtt
     rtt_data.sort(key=lambda x: x[1])
     
-    # Create table
     table = Texttable(max_width=80)
     table.set_deco(Texttable.HEADER | Texttable.VLINES)
     table.set_cols_align(["l", "r", "r"])
@@ -110,10 +109,9 @@ def create_ca_table(scan_results):
         if root_ca:
             ca_counter[root_ca] += 1
     
-    # Sort by occurrence count (most to least)
+    # sort by occurrence
     ca_counts = ca_counter.most_common()
     
-    # Create table
     table = Texttable(max_width=80)
     table.set_deco(Texttable.HEADER | Texttable.VLINES)
     table.set_cols_align(["l", "r", "r"])
@@ -134,13 +132,10 @@ def create_server_table(scan_results):
     
     for data in scan_results.values():
         http_server = data.get('http_server')
-        # Always count the server, even if it's None
         server_counter[http_server] += 1
     
-    # Sort by occurrence count (most to least)
     server_counts = server_counter.most_common()
     
-    # Create table
     table = Texttable(max_width=80)
     table.set_deco(Texttable.HEADER | Texttable.VLINES)
     table.set_cols_align(["l", "r", "r"])
@@ -150,7 +145,7 @@ def create_server_table(scan_results):
     
     total_domains = len(scan_results)
     for server, count in server_counts:
-        # Convert None to a readable string for display
+        # convert null to string
         server_name = "None" if server is None else server
         percentage = (count / total_domains) * 100
         table.add_row([server_name, count, percentage])
@@ -163,7 +158,6 @@ def create_feature_table(scan_results):
     if total_domains == 0:
         return "No domains scanned"
     
-    # Count features
     features = {
         "SSLv2": 0,
         "SSLv3": 0,
@@ -267,10 +261,8 @@ def main():
     input_file = sys.argv[1]
     output_file = sys.argv[2]
     
-    # Load scan results
     scan_results = load_scan_results(input_file)
     
-    # Generate report
     print(f"Generating report from {input_file}...")
     generate_report(scan_results, output_file)
     print(f"Report generated and saved to {output_file}")

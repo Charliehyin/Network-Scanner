@@ -1,4 +1,8 @@
-dnspython==2.7.0
-maxminddb==2.6.3
-Requests==2.32.3
-texttable==1.7.0
+certifi
+charset-normalizer
+dnspython
+idna
+maxminddb
+requests
+texttable
+urllib3

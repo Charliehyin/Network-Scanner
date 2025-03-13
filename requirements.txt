@@ -1,8 +1,8 @@
-certifi==2025.1.31
-charset-normalizer==3.4.1
-dnspython==2.7.0
-idna==3.10
-maxminddb==2.6.3
-requests==2.32.3
-texttable==1.7.0
-urllib3==2.3.0
+certifi
+charset-normalizer
+dnspython
+idna
+maxminddb
+requests
+texttable
+urllib3

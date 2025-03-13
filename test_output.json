@@ -1,0 +1,32 @@
+{
+    "ebpf.io": {
+        "geo_locations": [],
+        "hsts": true,
+        "http_server": "cloudflare",
+        "insecure_http": true,
+        "ipv4_addresses": [
+            "104.26.4.27",
+            "172.67.71.235",
+            "104.26.5.27"
+        ],
+        "ipv6_addresses": [
+            "2606:4700:20::ac43:47eb",
+            "2606:4700:20::681a:51b",
+            "2606:4700:20::681a:41b"
+        ],
+        "rdns_names": [],
+        "redirect_to_https": true,
+        "root_ca": null,
+        "rtt_range": [
+            35.99405288696289,
+            44.306278228759766
+        ],
+        "scan_time": 1741826675.472088,
+        "tls_versions": [
+            "TLSv1.0",
+            "TLSv1.1",
+            "TLSv1.2",
+            "TLSv1.3"
+        ]
+    }
+}

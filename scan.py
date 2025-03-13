@@ -8,6 +8,8 @@ import subprocess
 import requests
 import ipaddress
 import os
+import re
+import tempfile
 import dns.resolver
 from urllib.parse import urlparse, urljoin
 
@@ -393,7 +395,6 @@ def get_tls_versions(domain):
         pass
     
     return tls_versions
-
 def get_root_ca(domain):
     """Get the root certificate authority (CA) organization name."""
     try:
@@ -444,6 +445,7 @@ def get_root_ca(domain):
         return None
     except Exception:
         return None
+
 
 def get_rdns_names(ipv4_addresses):
     """Get reverse DNS names for IPv4 addresses."""
@@ -517,58 +519,48 @@ def get_geo_locations(ipv4_addresses):
     
     try:
         import maxminddb
+        import os
+        import sys
         
         # Check if the database file exists
         if not os.path.exists('GeoLite2-City.mmdb'):
             sys.stderr.write("Error: GeoLite2-City.mmdb not found in the current directory.\n")
             return []
-        
-        # Open the database
         with maxminddb.open_database('GeoLite2-City.mmdb') as reader:
             for ip in ipv4_addresses:
                 try:
-                    # Look up the IP address
                     result = reader.get(ip)
                     
                     if result:
-                        # Extract location components with defaults if missing
                         city = ""
                         region = ""
                         country = ""
                         
-                        # Get city if available
+                        #city
                         if 'city' in result and 'names' in result['city'] and 'en' in result['city']['names']:
                             city = result['city']['names']['en']
                         
-                        # Get region/subdivision if available
-                        if 'subdivisions' in result and result['subdivisions'] and 'names' in result['subdivisions'][0] and 'en' in result['subdivisions'][0]['names']:
+                        # region
+                        if ('subdivisions' in result and result['subdivisions'] and 
+                            'names' in result['subdivisions'][0] and 'en' in result['subdivisions'][0]['names']):
                             region = result['subdivisions'][0]['names']['en']
                         
-                        # Get country if available
+                        #country
                         if 'country' in result and 'names' in result['country'] and 'en' in result['country']['names']:
                             country = result['country']['names']['en']
                         
-                        # Construct location string, handling missing parts
-                        location_parts = []
-                        if city:
-                            location_parts.append(city)
-                        if region:
-                            location_parts.append(region)
-                        if country:
-                            location_parts.append(country)
-                        
-                        location = ", ".join(location_parts)
-                        
-                        if location:  # Only add non-empty locations
+                        # Only add the location if all three components are present
+                        if city and region and country:
+                            location = ", ".join([city, region, country])
                             locations.add(location)
                 except Exception:
                     continue
-    except ImportError:
-        sys.stderr.write("Error: maxminddb module not installed. Run 'pip install maxminddb'.\n")
     except Exception as e:
         sys.stderr.write(f"Error accessing GeoLite2 database: {str(e)}\n")
+        return []
     
     return list(locations)
+
 
 def scan_domain(domain):
     """Scan a domain and return a dictionary of results."""
@@ -638,6 +630,8 @@ def scan_domain(domain):
         geo_locations = get_geo_locations(ipv4_addresses)
         if geo_locations:
             results["geo_locations"] = geo_locations
+        else:
+            results["geo_locations"] = []
     print("Done with geo_locations")
     return results
 

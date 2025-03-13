@@ -5,74 +5,76 @@
         "http_server": "cloudflare",
         "insecure_http": true,
         "ipv4_addresses": [
+            "172.64.80.1",
             "172.67.71.235",
-            "104.26.5.27",
-            "104.26.4.27"
+            "104.26.4.27",
+            "104.26.5.27"
         ],
         "ipv6_addresses": [
-            "2606:4700:20::681a:51b",
             "2606:4700:20::ac43:47eb",
-            "2606:4700:20::681a:41b"
+            "2606:4700:20::681a:41b",
+            "2606:4700:20::681a:51b"
         ],
         "rdns_names": [],
         "redirect_to_https": true,
-        "root_ca": null,
+        "root_ca": "Google Trust Services LLC",
         "rtt_range": [
-            39.77394104003906,
-            50.63796043395996
+            1.4598369598388672,
+            3.6287307739257812
         ],
-        "scan_time": 1741827667.6447349,
+        "scan_time": 1741831537.9427044,
         "tls_versions": [
             "TLSv1.0",
             "TLSv1.1",
-            "TLSv1.2",
-            "TLSv1.3"
+            "TLSv1.2"
         ]
     },
     "facebook.com": {
         "geo_locations": [
+            "Dallas, Texas, United States",
+            "Minneapolis, Minnesota, United States",
             "Southfield, Michigan, United States",
-            "Chicago, Illinois, United States",
             "Saint-Denis, \u00cele-de-France, France",
-            "Lithia Springs, Georgia, United States",
-            "Dallas, Texas, United States"
+            "Chicago, Illinois, United States"
         ],
         "hsts": true,
         "http_server": null,
         "insecure_http": true,
         "ipv4_addresses": [
-            "57.144.174.1",
-            "31.13.93.35",
-            "157.240.254.35",
             "157.240.202.35",
+            "157.240.19.35",
             "57.144.172.1",
             "157.240.249.35",
-            "31.13.65.36"
+            "157.240.26.35",
+            "57.144.174.1"
         ],
         "ipv6_addresses": [
-            "2a03:2880:f175:181:face:b00c:0:25de"
+            "2a03:2880:f175:81:face:b00c:0:25de",
+            "2a03:2880:f134:83:face:b00c:0:25de",
+            "2a03:2880:f17b:187:face:b00c:0:25de",
+            "2a03:2880:f356:1:face:b00c:0:25de",
+            "2a03:2880:f13a:83:face:b00c:0:25de",
+            "2a03:2880:f357:1:face:b00c:0:25de"
         ],
         "rdns_names": [
-            "edge-star-mini-shv-03-ord5.facebook.com",
-            "edge-star-mini-shv-02-dfw5.facebook.com",
-            "edge-star-mini-shv-02-ord5.facebook.com",
             "edge-star-mini-shv-02-cdg4.facebook.com",
+            "edge-star-mini-shv-01-dfw5.facebook.com",
             "edge-star-mini-shv-01-det1.facebook.com",
             "edge-star-mini-shv-01-ord5.facebook.com",
-            "edge-star-mini-shv-01-atl3.facebook.com"
+            "edge-star-mini-shv-01-msp1.facebook.com",
+            "edge-star-mini-shv-03-ord5.facebook.com"
         ],
         "redirect_to_https": true,
-        "root_ca": null,
+        "root_ca": "DigiCert Inc",
         "rtt_range": [
-            25.842905044555664,
-            133.64315032958984
+            1.3151168823242188,
+            93.30868721008301
         ],
-        "scan_time": 1741827648.925938,
+        "scan_time": 1741831530.9814725,
         "tls_versions": [
             "TLSv1.0",
             "TLSv1.1",
-            "TLSv1.2",
-            "TLSv1.3"
+            "TLSv1.2"
         ]
     },
     "google.com": {
@@ -81,74 +83,80 @@
         "http_server": "gws",
         "insecure_http": true,
         "ipv4_addresses": [
-            "172.217.5.14",
-            "142.250.114.139",
-            "142.251.116.139",
-            "142.251.116.101",
             "142.250.114.101",
-            "172.217.0.174",
-            "172.217.20.174",
-            "142.250.190.78",
+            "142.250.190.110",
+            "64.233.185.138",
+            "64.233.185.113",
+            "142.250.190.46",
             "172.217.4.46",
-            "142.251.116.100",
-            "142.250.114.113",
-            "142.251.116.113",
-            "142.250.114.138",
-            "142.251.32.14",
-            "142.250.190.14",
-            "142.250.114.100",
-            "142.250.69.46",
-            "142.251.116.138",
             "142.250.114.102",
-            "142.250.190.142",
-            "142.251.116.102"
+            "142.250.114.138",
+            "172.217.4.206",
+            "142.250.190.78",
+            "172.217.20.174",
+            "142.250.191.206",
+            "142.250.191.238",
+            "142.250.114.113",
+            "142.250.69.46",
+            "64.233.185.139",
+            "64.233.185.102",
+            "142.250.114.100",
+            "142.250.114.139",
+            "64.233.185.100",
+            "64.233.185.101"
         ],
         "ipv6_addresses": [
+            "2607:f8b0:4009:81a::200e",
+            "2607:f8b0:4023:1002::71",
+            "2607:f8b0:4002:c09::65",
+            "2607:f8b0:4002:c09::8b",
+            "2607:f8b0:4009:80a::200e",
+            "2607:f8b0:4023:1002::65",
+            "2607:f8b0:4002:c09::66",
+            "2607:f8b0:4023:1002::64",
+            "2a00:1450:4007:80c::200e",
+            "2607:f8b0:4020:800::200e",
+            "2607:f8b0:4009:806::200e",
+            "2607:f8b0:4009:819::200e",
+            "2607:f8b0:4002:c09::8a",
+            "2607:f8b0:4023:1002::8b",
+            "2607:f8b0:4009:804::200e",
+            "2607:f8b0:4009:81b::200e",
+            "2607:f8b0:4009:81c::200e",
             "2607:f8b0:4009:809::200e"
         ],
         "rdns_names": [
-            "ord38s19-in-f14.1e100.net",
-            "lga15s49-in-f14.1e100.net",
-            "rr-in-f139.1e100.net",
-            "rt-in-f139.1e100.net",
-            "rt-in-f101.1e100.net",
             "rr-in-f101.1e100.net",
-            "ord38s42-in-f14.1e100.net",
-            "mia09s16-in-f14.1e100.net",
-            "yyz08s10-in-f174.1e100.net",
-            "waw02s07-in-f14.1e100.net",
-            "waw02s07-in-f174.1e100.net",
-            "par10s49-in-f14.1e100.net",
-            "ord37s34-in-f14.1e100.net",
-            "lga15s46-in-f14.1e100.net",
-            "lga15s46-in-f46.1e100.net",
-            "ord38s18-in-f14.1e100.net",
-            "rt-in-f100.1e100.net",
-            "rr-in-f113.1e100.net",
-            "rt-in-f113.1e100.net",
+            "ord37s35-in-f14.1e100.net",
+            "yb-in-f138.1e100.net",
+            "yb-in-f113.1e100.net",
+            "ord37s33-in-f14.1e100.net",
+            "rr-in-f102.1e100.net",
             "rr-in-f138.1e100.net",
-            "ord38s33-in-f14.1e100.net",
-            "ord37s32-in-f14.1e100.net",
-            "rr-in-f100.1e100.net",
+            "ord37s34-in-f14.1e100.net",
+            "ord38s31-in-f14.1e100.net",
+            "ord38s32-in-f14.1e100.net",
+            "rr-in-f113.1e100.net",
             "qro02s19-in-f14.1e100.net",
             "pnyula-aa-in-f14.1e100.net",
-            "rt-in-f138.1e100.net",
-            "rr-in-f102.1e100.net",
-            "ord37s36-in-f14.1e100.net",
-            "rt-in-f102.1e100.net"
+            "yb-in-f139.1e100.net",
+            "yb-in-f102.1e100.net",
+            "rr-in-f100.1e100.net",
+            "rr-in-f139.1e100.net",
+            "yb-in-f100.1e100.net",
+            "yb-in-f101.1e100.net"
         ],
         "redirect_to_https": true,
-        "root_ca": null,
+        "root_ca": "Google Trust Services LLC",
         "rtt_range": [
-            20.094871520996094,
-            138.57102394104004
+            1.0783672332763672,
+            89.80011940002441
         ],
-        "scan_time": 1741827682.0425441,
+        "scan_time": 1741831544.9924307,
         "tls_versions": [
             "TLSv1.0",
             "TLSv1.1",
-            "TLSv1.2",
-            "TLSv1.3"
+            "TLSv1.2"
         ]
     },
     "networks.cs.northwestern.edu/": {
@@ -159,7 +167,7 @@
         "ipv6_addresses": [],
         "redirect_to_https": false,
         "root_ca": null,
-        "scan_time": 1741827709.5553112
+        "scan_time": 1741831554.4955764
     },
     "pdinda.org": {
         "geo_locations": [
@@ -176,12 +184,12 @@
             "web1.cs.northwestern.edu"
         ],
         "redirect_to_https": false,
-        "root_ca": null,
+        "root_ca": "Comodo CA Limited",
         "rtt_range": [
-            31.640052795410156,
-            31.640052795410156
+            0.45228004455566406,
+            0.45228004455566406
         ],
-        "scan_time": 1741827721.984742,
+        "scan_time": 1741831560.2615142,
         "tls_versions": [
             "TLSv1.0",
             "TLSv1.2"

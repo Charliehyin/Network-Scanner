@@ -12,27 +12,27 @@ DETAILED DOMAIN INFORMATION
 DOMAIN: ebpf.io
 ================================================================================
 
-Scan time: 1741827667.6447349
-IPv4 addresses (3):
+Scan time: 1741831537.9427044
+IPv4 addresses (4):
+  - 172.64.80.1
   - 172.67.71.235
-  - 104.26.5.27
   - 104.26.4.27
+  - 104.26.5.27
 IPv6 addresses (3):
-  - 2606:4700:20::681a:51b
   - 2606:4700:20::ac43:47eb
   - 2606:4700:20::681a:41b
+  - 2606:4700:20::681a:51b
 HTTP server: cloudflare
 Insecure HTTP: True
 Redirects to HTTPS: True
 HSTS enabled: True
-Supported TLS versions (4):
+Supported TLS versions (3):
   - TLSv1.0
   - TLSv1.1
   - TLSv1.2
-  - TLSv1.3
-Root CA: None
+Root CA: Google Trust Services LLC
 Reverse DNS names (0):
-RTT range: 39.77ms - 50.64ms
+RTT range: 1.46ms - 3.63ms
 Geographic locations (0):
 
 
@@ -40,114 +40,122 @@ Geographic locations (0):
 DOMAIN: facebook.com
 ================================================================================
 
-Scan time: 1741827648.925938
-IPv4 addresses (7):
-  - 57.144.174.1
-  - 31.13.93.35
-  - 157.240.254.35
+Scan time: 1741831530.9814725
+IPv4 addresses (6):
   - 157.240.202.35
+  - 157.240.19.35
   - 57.144.172.1
   - 157.240.249.35
-  - 31.13.65.36
-IPv6 addresses (1):
-  - 2a03:2880:f175:181:face:b00c:0:25de
+  - 157.240.26.35
+  - 57.144.174.1
+IPv6 addresses (6):
+  - 2a03:2880:f175:81:face:b00c:0:25de
+  - 2a03:2880:f134:83:face:b00c:0:25de
+  - 2a03:2880:f17b:187:face:b00c:0:25de
+  - 2a03:2880:f356:1:face:b00c:0:25de
+  - 2a03:2880:f13a:83:face:b00c:0:25de
+  - 2a03:2880:f357:1:face:b00c:0:25de
 HTTP server: None
 Insecure HTTP: True
 Redirects to HTTPS: True
 HSTS enabled: True
-Supported TLS versions (4):
+Supported TLS versions (3):
   - TLSv1.0
   - TLSv1.1
   - TLSv1.2
-  - TLSv1.3
-Root CA: None
-Reverse DNS names (7):
-  - edge-star-mini-shv-03-ord5.facebook.com
-  - edge-star-mini-shv-02-dfw5.facebook.com
-  - edge-star-mini-shv-02-ord5.facebook.com
+Root CA: DigiCert Inc
+Reverse DNS names (6):
   - edge-star-mini-shv-02-cdg4.facebook.com
+  - edge-star-mini-shv-01-dfw5.facebook.com
   - edge-star-mini-shv-01-det1.facebook.com
   - edge-star-mini-shv-01-ord5.facebook.com
-  - edge-star-mini-shv-01-atl3.facebook.com
-RTT range: 25.84ms - 133.64ms
+  - edge-star-mini-shv-01-msp1.facebook.com
+  - edge-star-mini-shv-03-ord5.facebook.com
+RTT range: 1.32ms - 93.31ms
 Geographic locations (5):
-  - Southfield, Michigan, United States
-  - Chicago, Illinois, United States
-  - Saint-Denis, Île-de-France, France
-  - Lithia Springs, Georgia, United States
   - Dallas, Texas, United States
+  - Minneapolis, Minnesota, United States
+  - Southfield, Michigan, United States
+  - Saint-Denis, Île-de-France, France
+  - Chicago, Illinois, United States
 
 
 ================================================================================
 DOMAIN: google.com
 ================================================================================
 
-Scan time: 1741827682.0425441
+Scan time: 1741831544.9924307
 IPv4 addresses (21):
-  - 172.217.5.14
-  - 142.250.114.139
-  - 142.251.116.139
-  - 142.251.116.101
   - 142.250.114.101
-  - 172.217.0.174
-  - 172.217.20.174
-  - 142.250.190.78
+  - 142.250.190.110
+  - 64.233.185.138
+  - 64.233.185.113
+  - 142.250.190.46
   - 172.217.4.46
-  - 142.251.116.100
-  - 142.250.114.113
-  - 142.251.116.113
-  - 142.250.114.138
-  - 142.251.32.14
-  - 142.250.190.14
-  - 142.250.114.100
-  - 142.250.69.46
-  - 142.251.116.138
   - 142.250.114.102
-  - 142.250.190.142
-  - 142.251.116.102
-IPv6 addresses (1):
+  - 142.250.114.138
+  - 172.217.4.206
+  - 142.250.190.78
+  - 172.217.20.174
+  - 142.250.191.206
+  - 142.250.191.238
+  - 142.250.114.113
+  - 142.250.69.46
+  - 64.233.185.139
+  - 64.233.185.102
+  - 142.250.114.100
+  - 142.250.114.139
+  - 64.233.185.100
+  - 64.233.185.101
+IPv6 addresses (18):
+  - 2607:f8b0:4009:81a::200e
+  - 2607:f8b0:4023:1002::71
+  - 2607:f8b0:4002:c09::65
+  - 2607:f8b0:4002:c09::8b
+  - 2607:f8b0:4009:80a::200e
+  - 2607:f8b0:4023:1002::65
+  - 2607:f8b0:4002:c09::66
+  - 2607:f8b0:4023:1002::64
+  - 2a00:1450:4007:80c::200e
+  - 2607:f8b0:4020:800::200e
+  - 2607:f8b0:4009:806::200e
+  - 2607:f8b0:4009:819::200e
+  - 2607:f8b0:4002:c09::8a
+  - 2607:f8b0:4023:1002::8b
+  - 2607:f8b0:4009:804::200e
+  - 2607:f8b0:4009:81b::200e
+  - 2607:f8b0:4009:81c::200e
   - 2607:f8b0:4009:809::200e
 HTTP server: gws
 Insecure HTTP: True
 Redirects to HTTPS: True
 HSTS enabled: True
-Supported TLS versions (4):
+Supported TLS versions (3):
   - TLSv1.0
   - TLSv1.1
   - TLSv1.2
-  - TLSv1.3
-Root CA: None
-Reverse DNS names (29):
-  - ord38s19-in-f14.1e100.net
-  - lga15s49-in-f14.1e100.net
-  - rr-in-f139.1e100.net
-  - rt-in-f139.1e100.net
-  - rt-in-f101.1e100.net
+Root CA: Google Trust Services LLC
+Reverse DNS names (19):
   - rr-in-f101.1e100.net
-  - ord38s42-in-f14.1e100.net
-  - mia09s16-in-f14.1e100.net
-  - yyz08s10-in-f174.1e100.net
-  - waw02s07-in-f14.1e100.net
-  - waw02s07-in-f174.1e100.net
-  - par10s49-in-f14.1e100.net
-  - ord37s34-in-f14.1e100.net
-  - lga15s46-in-f14.1e100.net
-  - lga15s46-in-f46.1e100.net
-  - ord38s18-in-f14.1e100.net
-  - rt-in-f100.1e100.net
-  - rr-in-f113.1e100.net
-  - rt-in-f113.1e100.net
+  - ord37s35-in-f14.1e100.net
+  - yb-in-f138.1e100.net
+  - yb-in-f113.1e100.net
+  - ord37s33-in-f14.1e100.net
+  - rr-in-f102.1e100.net
   - rr-in-f138.1e100.net
-  - ord38s33-in-f14.1e100.net
-  - ord37s32-in-f14.1e100.net
-  - rr-in-f100.1e100.net
+  - ord37s34-in-f14.1e100.net
+  - ord38s31-in-f14.1e100.net
+  - ord38s32-in-f14.1e100.net
+  - rr-in-f113.1e100.net
   - qro02s19-in-f14.1e100.net
   - pnyula-aa-in-f14.1e100.net
-  - rt-in-f138.1e100.net
-  - rr-in-f102.1e100.net
-  - ord37s36-in-f14.1e100.net
-  - rt-in-f102.1e100.net
-RTT range: 20.09ms - 138.57ms
+  - yb-in-f139.1e100.net
+  - yb-in-f102.1e100.net
+  - rr-in-f100.1e100.net
+  - rr-in-f139.1e100.net
+  - yb-in-f100.1e100.net
+  - yb-in-f101.1e100.net
+RTT range: 1.08ms - 89.80ms
 Geographic locations (0):
 
 
@@ -155,7 +163,7 @@ Geographic locations (0):
 DOMAIN: networks.cs.northwestern.edu/
 ================================================================================
 
-Scan time: 1741827709.5553112
+Scan time: 1741831554.4955764
 IPv4 addresses (0):
 IPv6 addresses (0):
 HTTP server: Caddy, Caddy
@@ -173,7 +181,7 @@ Geographic locations (0):
 DOMAIN: pdinda.org
 ================================================================================
 
-Scan time: 1741827721.984742
+Scan time: 1741831560.2615142
 IPv4 addresses (1):
   - 129.105.44.20
 IPv6 addresses (0):
@@ -184,10 +192,10 @@ HSTS enabled: False
 Supported TLS versions (2):
   - TLSv1.0
   - TLSv1.2
-Root CA: None
+Root CA: Comodo CA Limited
 Reverse DNS names (1):
   - web1.cs.northwestern.edu
-RTT range: 31.64ms - 31.64ms
+RTT range: 0.45ms - 0.45ms
 Geographic locations (1):
   - Chicago, Illinois, United States
 
@@ -196,16 +204,19 @@ RTT RANGES (FASTEST TO SLOWEST)
 --------------------------------------------------------------------------------
                  Domain                  |  Min RTT (ms)   |  Max RTT (ms)  
 =========================================+=================+================
-google.com                               |          20.095 |         138.571
-facebook.com                             |          25.843 |         133.643
-pdinda.org                               |          31.640 |          31.640
-ebpf.io                                  |          39.774 |          50.638
+pdinda.org                               |           0.452 |           0.452
+google.com                               |           1.078 |          89.800
+facebook.com                             |           1.315 |          93.309
+ebpf.io                                  |           1.460 |           3.629
 
 
 ROOT CERTIFICATE AUTHORITIES
 --------------------------------------------------------------------------------
             Root Certificate Authority             |      Count      | Percentage (%) 
 ===================================================+=================+================
+Google Trust Services LLC                          |               2 |          40.000
+DigiCert Inc                                       |               1 |          20.000
+Comodo CA Limited                                  |               1 |          20.000
 
 
 WEB SERVERS
@@ -228,7 +239,7 @@ SSLv3                                    |               0 |           0.000
 TLSv1.0                                  |               4 |          80.000
 TLSv1.1                                  |               3 |          60.000
 TLSv1.2                                  |               4 |          80.000
-TLSv1.3                                  |               3 |          60.000
+TLSv1.3                                  |               0 |           0.000
 Plain HTTP                               |               4 |          80.000
 HTTPS Redirect                           |               3 |          60.000
 HSTS                                     |               3 |          60.000

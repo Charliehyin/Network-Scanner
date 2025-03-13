@@ -319,7 +319,8 @@ def get_tls_versions(domain):
         # Run nmap with ssl-enum-ciphers script
         process = subprocess.run(
             ["nmap", "--script", "ssl-enum-ciphers", "-p", "443", domain],
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             timeout=30  # nmap can take longer
         )
         
@@ -363,7 +364,8 @@ def get_tls_versions(domain):
                 process = subprocess.run(
                     ["openssl", "s_client", version_flag, "-connect", f"{domain}:443"],
                     input=b'\n',
-                    capture_output=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
                     timeout=5
                 )
                 
@@ -381,7 +383,8 @@ def get_tls_versions(domain):
         process = subprocess.run(
             ["openssl", "s_client", "-tls1_3", "-connect", f"{domain}:443"],
             input=b'\n',
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             timeout=5
         )
         
